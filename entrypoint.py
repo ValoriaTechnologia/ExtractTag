@@ -6,6 +6,12 @@ import subprocess
 def main():
     workspace = os.environ.get("GITHUB_WORKSPACE", "/github/workspace")
     os.chdir(workspace)
+
+    subprocess.run(
+        ["git", "config", "--global", "--add", "safe.directory", workspace],
+        check=True,
+    )
+
     result = subprocess.run(
         ["git", "rev-parse", "HEAD"],
         capture_output=True,
