@@ -1,0 +1,29 @@
+name: Test ExtractTag Action
+
+on:
+  push:
+    branches: [main, master]
+  pull_request:
+    branches: [main, master]
+
+jobs:
+  test-extract-tag:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: ExtractTag
+        id: extract
+        uses: ./
+
+      - name: Verify TAG hash
+        run: |
+          expected=$(git rev-parse HEAD)
+          echo "Expected: $expected"
+          echo "TAG:      $TAG"
+          if [ "$TAG" != "$expected" ]; then
+            echo "::error::TAG mismatch: expected $expected, got $TAG"
+            exit 1
+          fi
+          echo "::notice::TAG correctly set to $TAG"

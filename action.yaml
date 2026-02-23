@@ -1,0 +1,5 @@
+name: 'ExtractTag'
+description: 'Exporte le SHA du commit courant dans la variable d''environnement TAG'
+runs:
+  using: 'docker'
+  image: 'Dockerfile'
