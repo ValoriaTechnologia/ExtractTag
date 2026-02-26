@@ -1,0 +1,32 @@
+name: "Main Pipeline"
+on:
+  push:
+    branches:
+      - main
+
+permissions:
+  contents: write
+  packages: write
+
+jobs:
+  integration-job:
+    if: github.actor != 'github-actions[bot]'
+    uses: ./.github/workflows/integration-tests.yaml
+  bump-job:
+    needs:
+      - integration-job
+    uses: ./.github/workflows/bump.yaml
+  build-push-job:
+    needs:
+      - bump-job
+    uses: ./.github/workflows/build-push.yaml
+    with:
+      tag: ${{ needs.bump-job.outputs.new_tag }}
+  release-job:
+    needs:
+      - build-push-job
+      - bump-job
+    uses: ./.github/workflows/release.yaml
+    with:
+      tag_to_deploy: ${{ needs.bump-job.outputs.new_tag }}
+      changelog: ${{ needs.bump-job.outputs.changelog }}

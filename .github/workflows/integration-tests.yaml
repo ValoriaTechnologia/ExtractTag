@@ -1,8 +1,6 @@
-name: Test ExtractTag Action
-
+name: "Integration Tests"
 on:
-  push:
-    branches: [main]
+  workflow_call:
 
 jobs:
   test-extract-tag:
@@ -12,6 +10,12 @@ jobs:
         uses: actions/checkout@v4
         with:
           fetch-depth: 0
+
+      - name: Update action.yaml docker version
+        uses: ValoriaTechnologia/FieldChartUpdater@v0.0.2
+        with:
+          file: ./action.yaml
+          edits: '[{"path": "runs.image", "value": "Dockerfile"}]'
 
       - name: ExtractTag
         id: extract
