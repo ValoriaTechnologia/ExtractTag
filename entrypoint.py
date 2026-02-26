@@ -19,6 +19,7 @@ def main():
         check=True,
     )
     tag = result.stdout.strip()
+    print(f"TAG: {tag}")
     github_env = os.environ.get("GITHUB_ENV")
     if github_env:
         with open(github_env, "a", encoding="utf-8") as f:
