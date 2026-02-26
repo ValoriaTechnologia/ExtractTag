@@ -1,5 +1,5 @@
-name: 'ExtractTag'
-description: 'Exporte le SHA du commit courant dans la variable d''environnement TAG'
+name: ExtractTag
+description: Exporte le SHA du commit courant dans la variable d'environnement TAG
 runs:
-  using: 'docker'
-  image: 'Dockerfile'
+  using: docker
+  image: docker://ghcr.io/valoriatechnologia/extract-tag:v0.1.0
